@@ -35,9 +35,3 @@ A full-stack **Airbnb-style web application** where users can create, view, edit
 git clone https://github.com/your-username/airbnb-clone.git
 cd airbnb-clone
 ```
-###2. Install dependencies
-npm install
-
-```bash
-
-```
