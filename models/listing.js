@@ -12,15 +12,7 @@ const listingSchema = new mongoose.Schema({
     },
     image: {
         filename: String,
-        url: {
-          type: String,
-          set: (v) =>
-            v === ""
-              ? "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?cs=srgb&dl=pexels-souvenirpixels-414612.jpg&fm=jpg"
-              : v,
-          default:
-            "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?cs=srgb&dl=pexels-souvenirpixels-414612.jpg&fm=jpg",
-        },
+        url:String,
       }
       ,
     price:{

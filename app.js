@@ -1,3 +1,9 @@
+if(process.env.NODE_ENV != "production")
+{
+  require('dotenv').config();
+ 
+}
+
 const express = require('express');
 const app = express();
 const port = 8080;
@@ -12,6 +18,8 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy= require("passport-local");
 const User = require("./models/user.js");
+
+
 
 
 app.use(session({
@@ -106,6 +114,11 @@ app.use((err, req, res, next) => {
   const { statusCode = 500, message = "Something went wrong" } = err;
   res.status(statusCode).render("error.ejs", { message });
 });
+ 
+app.get("/testUpload", (req, res) => {
+  res.render("testUpload");
+});
+
 
 app.listen(port, () => {
   console.log(`App is listening at port ${port}`);

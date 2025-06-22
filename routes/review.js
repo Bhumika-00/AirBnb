@@ -6,6 +6,8 @@ const wrapAsync = require('../utils/wrapAsync');
 const ExpressError = require('../utils/ExpressError');
 const { reviewSchema } = require('../schema');
 const { isLoggedIn } = require('../middleware');
+const ReviewController = require('../controllers/review')
+
 
 // Middleware to validate review
 const validateReview = (req, res, next) => {
@@ -17,30 +19,9 @@ const validateReview = (req, res, next) => {
 };
 
 // POST: Create a new review
-router.post('/', isLoggedIn, validateReview, wrapAsync(async (req, res) => {
-  const listing = await Listing.findById(req.params.id);
-  if (!listing) {
-    return res.status(404).send("Listing not found");
-  }
-
-  const newReview = new Review(req.body.review);
-  newReview.author = req.user._id;
-  listing.reviews.push(newReview);
-  await newReview.save();
-  req.flash("success" , "New Review Added");
-  await listing.save();
-
-  res.redirect(`/listings`);
-}));
+router.post('/', isLoggedIn, validateReview, wrapAsync(ReviewController.create));
 
 // DELETE: Remove a review
-router.delete('/:reviewId',isLoggedIn, wrapAsync(async (req, res) => {
-  const { id, reviewId } = req.params;
-
-  await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
-  await Review.findByIdAndDelete(reviewId);
-  req.flash("success" , "New Review Deleted");
-  res.redirect(`/listings/${id}`);
-}));
+router.delete('/:reviewId',isLoggedIn, wrapAsync(ReviewController.delete));
 
 module.exports = router;
